@@ -10,7 +10,9 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: "Organic Store",
       link: [
+         { rel: 'icon', type: 'image/x-icon', href: '/images/coffee-asorted-400x400.jpg' },
         {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/icon?family=Material+Icons'

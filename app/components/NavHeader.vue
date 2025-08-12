@@ -38,7 +38,16 @@
           {{ cartCount }}
         </span>
       </div>
-      <span class="material-icons cursor-pointer">person</span>
+      <NuxtLink to="/logout" class="relative group">
+        <span class="material-icons cursor-pointer">person</span>
+
+        <!-- Tooltip -->
+        <span
+          class="absolute bottom-3/4 -translate-x-1/2 mt-2 px-2 py-1 text-xs bg-gray-200 rounded opacity-0 group-hover:opacity-100 transition"
+        >
+          Logout
+        </span>
+      </NuxtLink>
     </div>
 
     <!-- Hamburger Icon -->

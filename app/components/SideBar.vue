@@ -35,10 +35,12 @@
         <NuxtLink to="/checkout">Checkout</NuxtLink>
         <NuxtLink to="/contact">Contact</NuxtLink>
         <NuxtLink to="/">Home</NuxtLink>
-        <NuxtLink to="/">My Account</NuxtLink>
+        <NuxtLink to="/login">My Account</NuxtLink>
         <NuxtLink to="/everything">Shop</NuxtLink>
       </ul>
     </nav>
   </main>
 </template>
+<script setup>
+</script>
 
