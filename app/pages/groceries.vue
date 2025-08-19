@@ -116,25 +116,39 @@ const groceriesStore = useGroceriesStore();
 
 const products = groceriesStore.products;
 const sortOption = ref("");
-// pagination
+
+// Pagination
 const currentPage = ref(1);
 const itemsPerPage = 9;
 const totalPages = computed(() => Math.ceil(products.length / itemsPerPage));
 
 // Displayed Products (sorted + paginated)
 const displayedProducts = computed(() => {
-  let source = groceriesStore.sortedProducts;
-
+  // First, slice (get products of current page only)
   const start = (currentPage.value - 1) * itemsPerPage;
-  return source.slice(start, start + itemsPerPage);
+  const pageProducts = products.slice(start, start + itemsPerPage);
+
+  // Then, sort only these page products
+  if (sortOption.value === "price-asc") {
+    return [...pageProducts].sort((a, b) => a.price - b.price);
+  }
+  if (sortOption.value === "price-desc") {
+    return [...pageProducts].sort((a, b) => b.price - a.price);
+  }
+  if (sortOption.value === "name-asc") {
+    return [...pageProducts].sort((a, b) => a.name.localeCompare(b.name));
+  }
+  if (sortOption.value === "name-desc") {
+    return [...pageProducts].sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  return pageProducts; // no sorting applied
 });
 
-// Sorting
-const applySort = () => {
-  juiceStore.setSort(sortOption.value);
-};
+// Sorting trigger (only changes option, computed handles logic)
+const applySort = () => {};
 
-//  Add to Cart with message
+// Add to Cart with message
 const addToCart = (product) => {
   cartStore.addtocart({
     ...product,

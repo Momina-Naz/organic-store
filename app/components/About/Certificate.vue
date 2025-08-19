@@ -1,14 +1,15 @@
 <template>
   <main
-    class="max-w-7xl mx-auto grid grid-col-1 md:grid-cols-2 items-center p-20"
+    class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-6 md:p-20"
   >
+    <!-- Left Column -->
     <div class="mb-8 md:mb-0">
       <div class="rounded-md">
-        <img src="/images/grapes.jpg" alt="grapes" />
+        <img src="/images/grapes.jpg" alt="grapes" class="w-full rounded-md" />
       </div>
 
       <div
-        class="flex flex-col items-center text-center gap-5 mt-8 px-6 w-[450px]"
+        class="flex flex-col items-center text-center gap-5 mt-8 px-6 w-full max-w-md mx-auto"
       >
         <!-- Stars -->
         <div class="flex justify-center text-yellow-500 text-3xl">
@@ -38,13 +39,13 @@
       </div>
     </div>
 
-    <!-- certified products -->
-    <div class="flex flex-col gap-8 px-7">
-      <div class="flex gap-3">
+    <!-- Right Column -->
+    <div class="flex flex-col gap-8 px-4 md:px-7">
+      <div class="flex gap-3 items-center">
         <img
           src="/images/organic-badge-freeimg.png"
           alt="organic badge"
-          class="h-20"
+          class="h-12 md:h-20 w-auto"
         />
         <div class="flex flex-col gap-2">
           <h1 class="text-2xl font-bold text-gray-800">Certified Products</h1>
@@ -54,46 +55,56 @@
           </p>
         </div>
       </div>
-      <h1 class="text-4xl font-semibold font-serif text-gray-800">
+
+      <h1 class="text-3xl md:text-4xl font-semibold font-serif text-gray-800">
         We Deal With Various Quality Organic Products!
       </h1>
+
       <img src="/images/logo-leaf-new.png" alt="logo leaf" class="h-10 w-20" />
-      <div class="flex gap-16">
+
+      <div class="flex flex-col sm:flex-row gap-8">
         <ul>
           <li class="flex items-center mb-3">
             <span class="material-icons text-[#8FC14F]"
               >check_circle_outline</span
-            >Dry fruits
+            >
+            Dry fruits
           </li>
           <li class="flex items-center mb-3">
             <span class="material-icons text-[#8FC14F]"
               >check_circle_outline</span
-            >Fresh vegetables
+            >
+            Fresh vegetables
           </li>
           <li class="flex items-center mb-3">
             <span class="material-icons text-[#8FC14F]"
               >check_circle_outline</span
-            >Dried vegetables
+            >
+            Dried vegetables
           </li>
         </ul>
         <ul>
           <li class="flex items-center mb-3">
             <span class="material-icons text-[#8FC14F]"
               >check_circle_outline</span
-            >Milk products
+            >
+            Milk products
           </li>
           <li class="flex items-center mb-3">
             <span class="material-icons text-[#8FC14F]"
               >check_circle_outline</span
-            >Organic honey
+            >
+            Organic honey
           </li>
           <li class="flex items-center mb-3">
             <span class="material-icons text-[#8FC14F]"
               >check_circle_outline</span
-            >Organic tea
+            >
+            Organic tea
           </li>
         </ul>
       </div>
+
       <NuxtLink :to="`/allproducts`">
         <button
           class="mt-4 flex items-center justify-center gap-2 bg-[#6A9739] hover:bg-[#7CB342] text-white font-semibold px-10 py-3 rounded shadow transition duration-300 w-fit mx-auto md:mx-0"

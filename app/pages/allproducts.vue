@@ -106,28 +106,47 @@ import { ElMessage } from "element-plus";
 const productStore = useProductStore();
 const cartStore = useCartStore();
 
-const products = productStore.products;
+const products = computed(() => productStore.products);
 const sortOption = ref("");
 
 // Pagination
 const currentPage = ref(1);
 const itemsPerPage = 9;
-const totalPages = computed(() => Math.ceil(products.length / itemsPerPage));
+const totalPages = computed(() =>
+  Math.ceil(products.value.length / itemsPerPage)
+);
 
-// Displayed Products (sorted + paginated)
+// Displayed Products (paginated + then sorted within the page)
 const displayedProducts = computed(() => {
-  let source = productStore.sortedProducts;
-
   const start = (currentPage.value - 1) * itemsPerPage;
-  return source.slice(start, start + itemsPerPage);
+  const pageItems = products.value.slice(start, start + itemsPerPage);
+
+  switch (sortOption.value) {
+    case "a-z":
+      return [...pageItems].sort((a, b) => a.name.localeCompare(b.name));
+    case "z-a":
+      return [...pageItems].sort((a, b) => b.name.localeCompare(a.name));
+    case "price-min":
+      return [...pageItems].sort(
+        (a, b) =>
+          parseFloat(a.price.replace("£", "")) -
+          parseFloat(b.price.replace("£", ""))
+      );
+    case "price-max":
+      return [...pageItems].sort(
+        (a, b) =>
+          parseFloat(b.price.replace("£", "")) -
+          parseFloat(a.price.replace("£", ""))
+      );
+    default:
+      return pageItems;
+  }
 });
 
 // Sorting
-const applySort = () => {
-  productStore.setSort(sortOption.value);
-};
+const applySort = () => {};
 
-//  Add to Cart with message
+// Add to Cart with message
 const addToCart = (product) => {
   cartStore.addtocart({
     ...product,
@@ -141,3 +160,5 @@ const addToCart = (product) => {
   });
 };
 </script>
+
+

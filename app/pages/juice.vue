@@ -112,28 +112,51 @@ import { ElMessage } from "element-plus";
 const cartStore = useCartStore();
 const juiceStore = useJuiceStore();
 
-const products = juiceStore.products;
+const products = computed(() => juiceStore.products);
 const sortOption = ref("");
 
 // pagination
 const currentPage = ref(1);
 const itemsPerPage = 9;
-const totalPages = computed(() => Math.ceil(products.length / itemsPerPage));
+const totalPages = computed(() =>
+  Math.ceil(products.value.length / itemsPerPage)
+);
 
-// Displayed Products (sorted + paginated)
+// Sort + paginate locally (ignore store sorting for displayed list)
 const displayedProducts = computed(() => {
-  let source = juiceStore.sortedProducts;
+  let sorted = [...products.value];
+
+  switch (sortOption.value) {
+    case "a-z":
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case "z-a":
+      sorted.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case "price-min":
+      sorted.sort(
+        (a, b) =>
+          parseFloat(a.price.replace("£", "")) -
+          parseFloat(b.price.replace("£", ""))
+      );
+      break;
+    case "price-max":
+      sorted.sort(
+        (a, b) =>
+          parseFloat(b.price.replace("£", "")) -
+          parseFloat(a.price.replace("£", ""))
+      );
+      break;
+  }
 
   const start = (currentPage.value - 1) * itemsPerPage;
-  return source.slice(start, start + itemsPerPage);
+  return sorted.slice(start, start + itemsPerPage);
 });
 
 // Sorting
-const applySort = () => {
-  juiceStore.setSort(sortOption.value);
-};
+const applySort = () => {};
 
-//  Add to Cart with message
+// Add to Cart with message
 const addToCart = (product) => {
   cartStore.addtocart({
     ...product,
@@ -147,3 +170,4 @@ const addToCart = (product) => {
   });
 };
 </script>
+

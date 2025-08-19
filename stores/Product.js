@@ -162,7 +162,6 @@ export const useProductStore = defineStore("product", {
         quantity: 0,
       },
     ],
-    sortOption: "", // <-- new state for sorting
   }),
   getters: {
     // best selling products
@@ -173,40 +172,6 @@ export const useProductStore = defineStore("product", {
     trending(state) {
       return state.products.filter((product) => product.trending);
     },
-
-    // sorted products based on sortOption
-    sortedProducts(state) {
-      let sorted = [...state.products];
-      switch (state.sortOption) {
-        case "a-z":
-          sorted.sort((a, b) => a.name.localeCompare(b.name));
-          break;
-        case "z-a":
-          sorted.sort((a, b) => b.name.localeCompare(a.name));
-          break;
-        case "price-min":
-          sorted.sort(
-            (a, b) =>
-              parseFloat(a.price.replace("£", "")) -
-              parseFloat(b.price.replace("£", ""))
-          );
-          break;
-        case "price-max":
-          sorted.sort(
-            (a, b) =>
-              parseFloat(b.price.replace("£", "")) -
-              parseFloat(a.price.replace("£", ""))
-          );
-          break;
-        default:
-          break;
-      }
-      return sorted;
-    },
   },
-  actions: {
-    setSort(option) {
-      this.sortOption = option;
-    },
-  },
+  actions: {},
 });
