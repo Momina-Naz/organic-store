@@ -1,4 +1,8 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// nuxt.config.ts
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   modules: [
@@ -12,7 +16,7 @@ export default defineNuxtConfig({
     head: {
       title: "Organic Store",
       link: [
-         { rel: 'icon', type: 'image/x-icon', href: '/images/coffee-asorted-400x400.jpg' },
+        { rel: 'icon', type: 'image/x-icon', href: '/images/coffee-asorted-400x400.jpg' },
         {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/icon?family=Material+Icons'
@@ -21,11 +25,27 @@ export default defineNuxtConfig({
     }
   },
 
-
   components: [
     { path: 'node_modules/vue-countup-v3', pathPrefix: false }
-  ]
+  ],
+
+  css: [
+    'element-plus/dist/index.css', 
+  ],
+
+  vite: {
+    plugins: [
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
+    ],
+  },
 })
+
+
 
 
 

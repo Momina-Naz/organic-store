@@ -1,66 +1,7 @@
 <template>
-  <main class="bg-[#F8F6F3] flex gap-6 p-6 md:px-28 px-8 py-20">
-    <!--sidebar -->
-    <aside
-      class="md:w-1/4 w-2/4 pe-10 md:pe-16 border-e-2 border-gray-200 flex flex-col"
-    >
-      <!-- filter -->
-      <div>
-        <h1 class="text-2xl font-bold font-serif">Filter by price</h1>
-        <!-- Price Range Slider -->
-        <div class="mb-4">
-          <input
-            type="range"
-            v-model="selectedPrice"
-            step="1"
-            min="15"
-            max="35"
-            @change="filterByPrice"
-            class="w-full accent-[#8BC34A]"
-          />
-          <div class="flex justify-end gap-2">
-            <div>
-              <p
-                class="bg-white text-gray-800 border border-gray-400 p-2 text-center"
-              >
-                £15
-              </p>
-              <p>Min Price</p>
-            </div>
-            <div>
-              <p
-                class="bg-white text-gray-800 border border-gray-400 p-2 text-center"
-              >
-                £{{ selectedPrice }}
-              </p>
-              <p>Max Price</p>
-            </div>
-          </div>
-          <div class="flex justify-end">
-            <button
-              @click="resetFilter"
-              class="bg-[#8BC34A] text-white rounded-md px-6 py-3 font-medium text-lg mt-4"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <p class="mb-4"><span class="text-[#8BC34A]">Groceries</span>(10)</p>
-        <p class="mb-8"><span class="text-[#8BC34A]">Juice</span>(9)</p>
-        <div v-for="item in asideprods" :key="item.id">
-          <img :src="item.img" :alt="item.alt" />
-          <div class="my-6">
-            <p class="text-[#8BC34A] text-md mb-1">{{ item.name }}</p>
-            <p class="text-gray-800">{{ item.price }}</p>
-          </div>
-        </div>
-      </div>
-    </aside>
-
+  <main class="bg-[#F8F6F3] flex justify-center p-6 md:px-28 px-8 py-20">
     <!-- Product Listing -->
-    <section class="flex-1 ps-4 md:ps-9">
+    <section class="max-w-5xl">
       <NuxtLink :to="`/`" class="text-sm text-gray-500 mb-6"
         >Home <span>/ Juice</span>
       </NuxtLink>
@@ -72,12 +13,28 @@
         architecto ut voluptatum, odio laudantium ex nihil error temporibus.
         Tempore.
       </p>
-      <!-- pagination  -->
-      <p class="text-gray-800">
-        Showing {{ (currentPage - 1) * itemsPerPage + 1 }}–
-        {{ Math.min(currentPage * itemsPerPage, products.length) }} of
-        {{ products.length }} results
-      </p>
+      <!-- pagination info -->
+      <div class="flex justify-between items-center">
+        <!-- Pagination info -->
+        <p class="text-gray-800 mb-4">
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }}–
+          {{ Math.min(currentPage * itemsPerPage, products.length) }} of
+          {{ products.length }} results
+        </p>
+
+        <!-- Sort Dropdown -->
+        <select
+          v-model="sortOption"
+          @change="applySort"
+          class="mb-7 bg-[#F8F6F3] px-4 py-3 border border-[#F8F6F3] hover:border-gray-300 cursor-pointer"
+        >
+          <option value="">Default</option>
+          <option value="a-z">A → Z</option>
+          <option value="z-a">Z → A</option>
+          <option value="price-min">Price: Low →High</option>
+          <option value="price-max">Price: High → Low</option>
+        </select>
+      </div>
       <div
         class="grid gap-x-6 gap-y-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 py-8"
       >
@@ -87,13 +44,23 @@
           :key="product.id"
           class="group relative"
         >
-          <NuxtLink :to="`/product/${product.linkName}`">
+          <NuxtLink :to="`/juices/${product.linkName}`">
             <img
               :src="product.img"
               :alt="product.alt"
               class="aspect-square w-full rounded-md bg-gray-200 object-cover cursor-pointer"
             />
           </NuxtLink>
+
+          <!-- Add to Cart Button  -->
+          <div class="absolute top-2 right-2">
+            <button
+              @click.prevent="addToCart(product)"
+              class="bg-[#8BC34A] py-2 px-2 rounded-full text-white hover:bg-[#79A14C] flex justify-center items-center"
+            >
+              <span class="material-icons">add_shopping_cart</span>
+            </button>
+          </div>
 
           <!-- Product Info -->
           <div class="mt-4 flex flex-col items-center">
@@ -138,42 +105,45 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useCartStore } from "~~/stores/Cart";
+import { useJuiceStore } from "~~/stores/Juices";
+import { ElMessage } from "element-plus";
 
-const route = useRoute();
-// auto import of useproductstore
+const cartStore = useCartStore();
+const juiceStore = useJuiceStore();
 
-import { useProductStore } from "~~/stores/Product";
+const products = juiceStore.products;
+const sortOption = ref("");
 
-const productStore = useProductStore();
-const products = productStore.products;
-const asideprods = productStore.onSale;
-const filteredProducts = ref([]);
-const selectedPrice = ref(35);
-//pagination
+// pagination
 const currentPage = ref(1);
 const itemsPerPage = 9;
 const totalPages = computed(() => Math.ceil(products.length / itemsPerPage));
 
+// Displayed Products (sorted + paginated)
 const displayedProducts = computed(() => {
-  const source =
-    filteredProducts.value.length > 0 ? filteredProducts.value : products;
+  let source = juiceStore.sortedProducts;
+
   const start = (currentPage.value - 1) * itemsPerPage;
   return source.slice(start, start + itemsPerPage);
 });
-// filter function
 
-const filterByPrice = () => {
-  filteredProducts.value = products.filter((product) => {
-    const price = parseFloat(product.price.replace("£", ""));
-    return price <= selectedPrice.value;
-  });
-  currentPage.value = 1;
+// Sorting
+const applySort = () => {
+  juiceStore.setSort(sortOption.value);
 };
-// reset function
-const resetFilter = () => {
-  selectedPrice.value = 35;
-  filteredProducts.value = [];
-  currentPage.value = 1;
+
+//  Add to Cart with message
+const addToCart = (product) => {
+  cartStore.addtocart({
+    ...product,
+    quantity: 1,
+  });
+
+  ElMessage({
+    message: `${product.name} has been added to your cart!`,
+    type: "success",
+    duration: 2000,
+  });
 };
 </script>

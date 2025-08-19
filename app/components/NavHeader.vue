@@ -13,8 +13,8 @@
     <nav class="hidden md:block">
       <ul class="flex gap-10 text-gray-700">
         <NuxtLink to="/about" class="hover:text-[#8BC34A]">About</NuxtLink>
-        <NuxtLink to="/everything" class="hover:text-[#8BC34A]"
-          >Everything</NuxtLink
+        <NuxtLink to="/allproducts" class="hover:text-[#8BC34A]"
+          >All products</NuxtLink
         >
         <NuxtLink to="/groceries" class="hover:text-[#8BC34A]"
           >Groceries</NuxtLink
@@ -38,16 +38,25 @@
           {{ cartCount }}
         </span>
       </div>
-      <NuxtLink to="/logout" class="relative group">
-        <span class="material-icons cursor-pointer">person</span>
-
-        <!-- Tooltip -->
-        <span
-          class="absolute bottom-3/4 -translate-x-1/2 mt-2 px-2 py-1 text-xs bg-gray-200 rounded opacity-0 group-hover:opacity-100 transition"
-        >
-          Logout
+      <div class="relative">
+        <!-- Profile Icon -->
+        <span class="material-icons cursor-pointer" @click="open = !open">
+          person
         </span>
-      </NuxtLink>
+
+        <!-- Dropdown Menu -->
+        <div
+          v-if="open"
+          class="absolute left-1/2 -translate-x-1/2 mt-2 w-32 bg-white shadow-md rounded-lg transition"
+        >
+          <NuxtLink
+            to="/logout"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Logout
+          </NuxtLink>
+        </div>
+      </div>
     </div>
 
     <!-- Hamburger Icon -->
@@ -76,6 +85,8 @@ import { ref } from "vue";
 import Cart from "./Cart.vue";
 import SideBar from "./SideBar.vue";
 import { useCartStore } from "~~/stores/Cart";
+// logout dropdown
+const open = ref(false);
 const cartStore = useCartStore();
 // cartcount
 const cartCount = computed(() => cartStore.cartCount);

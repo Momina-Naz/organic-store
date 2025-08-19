@@ -1,0 +1,196 @@
+import { defineStore } from "pinia";
+
+export const useJuiceStore = defineStore("juice", {
+  state: () => ({
+    products: [
+      {
+        id: 1,
+        name: "Fresh Orange Juice",
+        linkName: "Fresh-Orange-Juice",
+        img: "/images/orange.jpg",
+        alt: "Bottle of fresh orange juice.",
+        price: "£18.00",
+        bestselling: true,
+        trending: false,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 2,
+        name: "Apple Juice",
+        linkName: "Apple-Juice",
+        img: "/images/apple-juice.jpg",
+        alt: "Bottle of apple juice.",
+        price: "£20.00",
+        bestselling: false,
+        trending: true,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 3,
+        name: "Mango Juice",
+        linkName: "Mango-Juice",
+        img: "/images/mango-juice.jpg",
+        alt: "Bottle of mango juice.",
+        price: "£22.00",
+        bestselling: true,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 4,
+        name: "Pineapple Juice",
+        linkName: "Pineapple-Juice",
+        img: "/images/pineapple-juice.jpg",
+        alt: "Bottle of pineapple juice.",
+        price: "£19.00",
+        bestselling: false,
+        trending: false,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 5,
+        name: "Pomegranate Juice",
+        linkName: "Pomegranate-Juice",
+        img: "/images/pomegrante.jpg",
+        alt: "Bottle of pomegranate juice.",
+        price: "£25.00",
+        bestselling: true,
+        trending: false,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 6,
+        name: "Carrot Juice",
+        linkName: "Carrot-Juice",
+        img: "/images/carrot.jpg",
+        alt: "Bottle of carrot juice.",
+        price: "£21.00",
+        bestselling: false,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 7,
+        name: "Watermelon Juice",
+        linkName: "Watermelon-Juice",
+        img: "/images/watermelon.jpg",
+        alt: "Bottle of watermelon juice.",
+        price: "£23.00",
+        bestselling: false,
+        trending: false,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 8,
+        name: "Mixed Fruit Juice",
+        linkName: "Mixed-Fruit-Juice",
+        img: "/images/mix-juices.jpg",
+        alt: "Bottle of mixed fruit juice.",
+        price: "£26.00",
+        bestselling: true,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 9,
+        name: "Grape Juice",
+        linkName: "Grape-Juice",
+        img: "/images/guava.jpg",
+        alt: "Bottle of grape juice.",
+        price: "£24.00",
+        bestselling: false,
+        trending: true,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 10,
+        name: "Strawberry Juice",
+        linkName: "Strawberry-Juice",
+        img: "/images/mix-fruite-juice.jpg",
+        alt: "Bottle of strawberry juice.",
+        price: "£27.00",
+        bestselling: false,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 11,
+        name: "Guava Juice",
+        linkName: "Guava-Juice",
+        img: "/images/guava.jpg",
+        alt: "Bottle of guava juice.",
+        price: "£22.00",
+        bestselling: true,
+        trending: false,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 12,
+        name: "Lemon Juice",
+        linkName: "Lemon-Juice",
+        img: "/images/mango-juice.jpg",
+        alt: "Bottle of lemon juice.",
+        price: "£17.00",
+        bestselling: false,
+        trending: false,
+        onSale: false,
+        quantity: 0,
+      },
+    ],
+    sortOption: "", // <-- added sorting state
+  }),
+
+  getters: {
+    bestselling(state) {
+      return state.products.filter((p) => p.bestselling);
+    },
+    trending(state) {
+      return state.products.filter((p) => p.trending);
+    },
+    sortedProducts(state) {
+      let sorted = [...state.products];
+      switch (state.sortOption) {
+        case "a-z":
+          sorted.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case "z-a":
+          sorted.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case "price-min":
+          sorted.sort(
+            (a, b) =>
+              parseFloat(a.price.replace("£", "")) -
+              parseFloat(b.price.replace("£", ""))
+          );
+          break;
+        case "price-max":
+          sorted.sort(
+            (a, b) =>
+              parseFloat(b.price.replace("£", "")) -
+              parseFloat(a.price.replace("£", ""))
+          );
+          break;
+        default:
+          break;
+      }
+      return sorted;
+    },
+  },
+
+  actions: {
+    setSort(option) {
+      this.sortOption = option;
+    },
+  },
+});

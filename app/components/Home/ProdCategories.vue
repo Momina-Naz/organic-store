@@ -17,7 +17,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
             saepe.
           </p>
-          <NuxtLink :to="'/everything'">
+          <NuxtLink :to="'/allproducts'">
             <button
               class="z-10 mt-auto flex items-center justify-center gap-2 bg-[#6A9739] hover:bg-[#7CB342] text-white font-semibold px-6 py-3 rounded shadow transition duration-300 w-fit"
             >

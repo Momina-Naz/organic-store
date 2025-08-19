@@ -71,7 +71,7 @@
     </section>
 
     <!-- Place Order Button -->
-    <NuxtLink :to="`/everything`">
+    <NuxtLink :to="`/allproducts`">
       <button
         type="submit"
         class="w-full bg-[#8BC34A] hover:bg-[#79A14C] text-white py-3 rounded-lg font-semibold"

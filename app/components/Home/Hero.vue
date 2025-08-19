@@ -20,7 +20,7 @@
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br />
         Culpa iure reprehenderit iste molestiae fuga animi!
       </p>
-      <NuxtLink :to="'/everything'">
+      <NuxtLink :to="'/allproducts'">
         <button
           class="mt-4 flex items-center justify-center gap-2 bg-[#6A9739] hover:bg-[#7CB342] text-white font-semibold px-6 py-3 rounded shadow transition duration-300 w-fit mx-auto md:mx-0"
         >

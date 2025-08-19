@@ -132,5 +132,8 @@ const addToCart = () => {
     quantity: quantity.value,
   });
   showalert.value = true;
+  setTimeout(() => {
+    showalert.value = false;
+  }, 2000);
 };
 </script>

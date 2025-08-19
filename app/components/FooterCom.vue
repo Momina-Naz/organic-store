@@ -22,8 +22,8 @@
         <NuxtLink to="/about" class="text-gray-400 hover:text-white"
           >About</NuxtLink
         >
-        <NuxtLink to="/everything" class="text-gray-400 hover:text-white"
-          >Everything</NuxtLink
+        <NuxtLink to="/allproducts" class="text-gray-400 hover:text-white"
+          >All Products</NuxtLink
         >
         <NuxtLink to="/groceries" class="text-gray-400 hover:text-white"
           >Groceries</NuxtLink

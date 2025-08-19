@@ -36,7 +36,7 @@
         <NuxtLink to="/contact">Contact</NuxtLink>
         <NuxtLink to="/">Home</NuxtLink>
         <NuxtLink to="/login">My Account</NuxtLink>
-        <NuxtLink to="/everything">Shop</NuxtLink>
+        <NuxtLink to="/allproducts">Shop</NuxtLink>
       </ul>
     </nav>
   </main>

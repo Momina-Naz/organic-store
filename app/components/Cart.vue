@@ -130,6 +130,13 @@
                           class="flex items-center justify-center rounded-md border border-transparent bg-[#7CB342] px-6 py-3 text-base font-medium text-white shadow-xs"
                           >Checkout</NuxtLink
                         >
+                        <NuxtLink
+                          to="/cart"
+                          @click="$emit('close')"
+                          class="flex items-center justify-center rounded-md border border-transparent bg-[#7CB342] px-6 py-3 text-base font-medium text-white shadow-xs mt-5"
+                        >
+                          View Cart
+                        </NuxtLink>
                       </div>
                       <div
                         class="mt-6 flex justify-center text-center text-sm text-gray-500"
@@ -141,7 +148,7 @@
                             class="font-medium text-[#7CB342]"
                             @click="$emit('close')"
                           >
-                            <NuxtLink :to="`/everything`">
+                            <NuxtLink :to="`/allproducts`">
                               Continue Shopping</NuxtLink
                             >
                             <span aria-hidden="true"> &rarr;</span>
@@ -173,7 +180,7 @@ const handleRemove = (productId) => {
   });
 };
 // total price
-const totalPrice = cartStore.priceCount;
+const totalPrice = computed(() => cartStore.priceCount); //if we do not use computed the value of total price will not update in real time
 
 const props = defineProps({
   cart: true,

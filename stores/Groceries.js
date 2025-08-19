@@ -1,0 +1,197 @@
+import { defineStore } from "pinia";
+
+export const useGroceriesStore = defineStore("groceries", {
+  state: () => ({
+    products: [
+      {
+        id: 1,
+        name: "Cashew Butter",
+        linkName: "Cashew-Butter",
+        img: "/images/cashew-butter-500-400x400.jpg",
+        alt: "Jar of cashew butter.",
+        price: "£25.00",
+        originalPrice: "£35.00",
+        bestselling: false,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 2,
+        name: "Organic Honey",
+        linkName: "Organic-Honey",
+        img: "/images/organic-honey-400x400.jpg",
+        alt: "Jar of pure organic honey.",
+        price: "£34.00",
+        bestselling: true,
+        trending: false,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 3,
+        name: "Whole Wheat Flour",
+        linkName: "Whole-Wheat-Flour",
+        img: "/images/flour.jpg",
+        alt: "Bag of organic wheat flour.",
+        price: "£15.00",
+        bestselling: false,
+        trending: false,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 4,
+        name: "Basmati Rice",
+        linkName: "Basmati-Rice",
+        img: "/images/rice.jpg",
+        alt: "Bag of premium basmati rice.",
+        price: "£40.00",
+        bestselling: true,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 5,
+        name: "Pulses Mix",
+        linkName: "Pulses-Mix",
+        img: "/images/pulses(2).jpg",
+        alt: "Bag of mixed pulses.",
+        price: "£22.00",
+        bestselling: false,
+        trending: false,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 6,
+        name: "Cooking Oil",
+        linkName: "Cooking-Oil",
+        img: "/images/cooking-oil.jpg",
+        alt: "Bottle of natural cooking oil.",
+        price: "£30.00",
+        bestselling: true,
+        trending: false,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 7,
+        name: "Organic Tea",
+        linkName: "Organic-Tea",
+        img: "/images/organic-tea.jpg",
+        alt: "Box of organic tea bags.",
+        price: "£18.00",
+        bestselling: false,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 8,
+        name: "Red Chillies",
+        linkName: "Red-Chillies",
+        img: "/images/red-chillies-400x400.jpg",
+        alt: "Pack of dried red chillies.",
+        price: "£12.00",
+        bestselling: false,
+        trending: false,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 9,
+        name: "Salt & Spices Pack",
+        linkName: "Salt-Spices-Pack",
+        img: "/images/spicies-pack.jpg",
+        alt: "Assorted pack of spices.",
+        price: "£28.00",
+        bestselling: true,
+        trending: true,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 10,
+        name: "Farm Fresh Eggs",
+        linkName: "Farm-Fresh-Eggs",
+        img: "/images/eggs-400x400.jpg",
+        alt: "Tray of farm fresh eggs.",
+        price: "£20.00",
+        bestselling: false,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+      {
+        id: 11,
+        name: "Brown Sugar",
+        linkName: "Brown-Sugar",
+        img: "/images/brown-sugar.jpg",
+        alt: "Pack of brown sugar.",
+        price: "£14.00",
+        bestselling: false,
+        trending: false,
+        onSale: true,
+        quantity: 0,
+      },
+      {
+        id: 12,
+        name: "Almonds Pack",
+        linkName: "Almonds-Pack",
+        img: "/images/almonds.jpg",
+        alt: "Pack of fresh almonds.",
+        price: "£32.00",
+        bestselling: true,
+        trending: true,
+        onSale: false,
+        quantity: 0,
+      },
+    ],
+    sortOption: "", // added sorting state
+  }),
+
+  getters: {
+    bestselling(state) {
+      return state.products.filter((p) => p.bestselling);
+    },
+    trending(state) {
+      return state.products.filter((p) => p.trending);
+    },
+    sortedProducts(state) {
+      let sorted = [...state.products];
+      switch (state.sortOption) {
+        case "a-z":
+          sorted.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case "z-a":
+          sorted.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case "price-min":
+          sorted.sort(
+            (a, b) =>
+              parseFloat(a.price.replace("£", "")) -
+              parseFloat(b.price.replace("£", ""))
+          );
+          break;
+        case "price-max":
+          sorted.sort(
+            (a, b) =>
+              parseFloat(b.price.replace("£", "")) -
+              parseFloat(a.price.replace("£", ""))
+          );
+          break;
+        default:
+          break;
+      }
+      return sorted;
+    },
+  },
+
+  actions: {
+    setSort(option) {
+      this.sortOption = option;
+    },
+  },
+});
